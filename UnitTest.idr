@@ -15,7 +15,7 @@ ESC = singleton $ chr 27
 CSI : String
 CSI = ESC ++ "["
 
-instance Show Color where
+Show Color where
   show Red = CSI ++ "31m"
   show Green = CSI ++ "32m"
   show Reset = CSI ++ "0m"
@@ -27,7 +27,7 @@ red: String -> String
 red s = show Red ++ s ++ show Reset
 
 
-instance Show Status where
+Show Status where
   show Ok       = "[" ++  (green "Ok  ") ++  "] "
   show Failure  = "[" ++ (red "Fail") ++ "] "
 
@@ -45,7 +45,7 @@ printHint x = putStrLn ("       " ++ x)
 -- Public API
 
 ||| Tests for equality
-public
+public export
 assertEq: (Show a, Eq a) =>  (assertionText: String) -> (actual : a) -> (expected: a) -> IO ()
 assertEq assertionText x y with (x == y)
   assertEq assertionText _ _              | True  = printResult Ok assertionText
@@ -54,7 +54,7 @@ assertEq assertionText x y with (x == y)
                                                       printHint $ show actual ++ " does not equal " ++ show expected
 
 ||| Tests for inequality
-public
+public export
 assertNotEq: (Show a, Eq a) =>  (assertionText: String) -> (actual : a) -> (expected: a) -> IO ()
 assertNotEq assertionText x y with (x /= y)
   assertEq assertionText _ _              | True  = printResult Ok assertionText
